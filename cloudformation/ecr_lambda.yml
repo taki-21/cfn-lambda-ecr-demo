@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Deploy Container Lambda
+Parameters:
+  EcrImageUri:
+    Description: ECR image URI
+    Type: String
+
+Resources:
+  LambdaFunc:
+    Type: AWS::Lambda::Function
+    Properties:
+      Role:
+        Fn::GetAtt:
+          - LambdaRole
+          - Arn
+      PackageType: Image
+      Code:
+        ImageUri: !Ref 'EcrImageUri'
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Timeout: 30
+
+
+Outputs:
